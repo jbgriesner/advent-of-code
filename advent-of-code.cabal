@@ -6,22 +6,21 @@ cabal-version: 1.12
 
 name:           advent-of-code
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/advent-of-code#readme>
-homepage:       https://github.com/githubuser/advent-of-code#readme
-bug-reports:    https://github.com/githubuser/advent-of-code/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2022 Author name here
+description:    Please see the README on GitHub at https://github.com/jbgriesner/advent-of-code-2022
+homepage:       https://github.com/jbgriesner/advent-of-code-2022#readme
+bug-reports:    https://github.com/jbgriesner/advent-of-code-2022/issues
+author:         JB Griesner
+maintainer:     JB Griesner
+copyright:      2022 JB Griesner
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    CHANGELOG.md
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/advent-of-code
+  location: https://github.com/jbgriesner/advent-of-code-2022
 
 executable advent-of-code-exe
   main-is: Main.hs
