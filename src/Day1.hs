@@ -26,5 +26,5 @@ solve l = tup $ take 3 $ reverse $ sort l
 
 solve_day1 :: IO ()
 solve_day1 = do
-    putStr "     part2:"
+    putStr "     part2: "
     input >>= (print . solve) . process

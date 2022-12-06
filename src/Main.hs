@@ -13,3 +13,7 @@ main = do
     solve_day2
     divider 3
     solve_day3
+    divider 4
+    solve_day4
+    divider 5
+    solve_day5

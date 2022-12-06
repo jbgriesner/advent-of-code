@@ -2,6 +2,7 @@ module Day3 (solve_day3) where
 
 import Data.Char
 import Data.List
+import Control.Monad
 
 inputPath :: String
 inputPath = "./data/input_day3"
@@ -22,6 +23,10 @@ toInt c
 
 intersec xs ys = xs \\ (xs \\ ys)
 
+inters xs ys zs = let
+                        inner = intersec xs ys
+                    in intersec inner zs
+
 toInts :: String -> [Int]
 toInts s =
     let ints = map (map toInt) . halfSplit $ s
@@ -29,6 +34,18 @@ toInts s =
 
 part1 :: String -> [[Int]]
 part1 x = map toInts $ lines x
+
+toInts3 :: String -> [Int]
+toInts3 s = map toInt s
+
+groupBy3 :: [[a]] -> [[[a]]]
+groupBy3 [] = []
+groupBy3 (a:b:c:d) = [a, b, c] : (groupBy3 d)
+
+part2 :: String -> [[Int]]
+part2 x = let
+            list = groupBy3 $ map toInts3 $ lines x
+          in map (\[a, b, c] -> inters a b c) list
 
 rmdups :: (Ord a) => [a] -> [a]
 rmdups = map head . group . sort
@@ -39,9 +56,12 @@ solve l =  solving l 0
         solving [] n = n
         solving (x:xs) n = solving xs (n + sum (rmdups x))
 
+solve_part2 :: [[Int]] -> Int
+solve_part2 l = sum . concat $ map rmdups l
+
 solve_day3 :: IO ()
 solve_day3 = do
-    putStr "     part1:"
+    putStr "     part1: "
     input >>= print . solve . part1
---    putStr "     part2:"
- --   input >>= print . solve . part2
+    putStr "     part2: "
+    input >>= print . solve_part2 . part2

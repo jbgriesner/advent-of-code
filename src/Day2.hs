@@ -18,7 +18,7 @@ scores :: Score
 scores = Score {
     win = 6,
     loss = 0,
-    eq = 3    
+    eq = 3
 }
 
 instance Ord Choice where
@@ -58,25 +58,25 @@ nextChoice Draw x = x
 
 fromString_part2 :: String -> String
 fromString_part2 a =
-    let 
+    let
         [x, y] = words a
         elf_choice = fromString x
         wanted_outcome = wanted y
         wanted_choice = toStr $ nextChoice wanted_outcome elf_choice
-    in 
-        x ++ " " ++ wanted_choice    
-    where 
+    in
+        x ++ " " ++ wanted_choice
+    where
         wanted "X" = Loss
         wanted "Y" = Draw
         wanted "Z" = Win
 
-toInt :: Choice -> Int 
+toInt :: Choice -> Int
 toInt Rock = 1
 toInt Paper = 2
 toInt Scissor = 3
 
 fight :: Choice -> Choice -> Int
-fight x y 
+fight x y
     | x == y = toInt y + eq scores
     | x > y = toInt y + loss scores
     | otherwise = toInt y + win scores
@@ -89,13 +89,13 @@ part1 x = map (\[x, y] -> fight x y) $ map (map fromString . words) $ lines x
 
 solve :: [Int] -> Int
 solve = sum
-          
+
 part2 :: String -> [Int]
 part2 x = map (\[x, y] -> fight x y) $ map (map fromString . words) $ map fromString_part2 $ lines x
 
 solve_day2 :: IO ()
 solve_day2 = do
-    putStr "     part1:"
+    putStr "     part1: "
     input >>= print . solve . part1
-    putStr "     part2:"
+    putStr "     part2: "
     input >>= print . solve . part2
