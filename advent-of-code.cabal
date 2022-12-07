@@ -28,6 +28,8 @@ executable advent-of-code-exe
       Day1
       Day2
       Day3
+      Day4
+      Day5
       Days
       Paths_advent_of_code
   hs-source-dirs:
@@ -35,6 +37,8 @@ executable advent-of-code-exe
   ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , containers
     , split
     , text
+    , unordered-containers
   default-language: Haskell2010

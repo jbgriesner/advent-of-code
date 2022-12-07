@@ -1,8 +1,7 @@
+{-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
 module Day4 (solve_day4) where
 
-import Data.Char
 import Data.List
-import Control.Monad
 import Data.List.Split
 
 inputPath :: String
@@ -28,6 +27,7 @@ solve_part1 bs = sum $ map fromEnum bs
 part2 :: String -> [Bool]
 part2 s = map splitRangesSoft $ lines s
 
+intersec :: Eq a => [a] -> [a] -> [a]
 intersec xs ys = xs \\ (xs \\ ys)
 
 splitRangesSoft :: String -> Bool

@@ -2,7 +2,6 @@ module Day3 (solve_day3) where
 
 import Data.Char
 import Data.List
-import Control.Monad
 
 inputPath :: String
 inputPath = "./data/input_day3"
@@ -14,12 +13,12 @@ halfSplit :: String -> [String]
 halfSplit l =
     let lgth = length l
     in internSplit (lgth `div` 2) l
-    where internSplit n x = [(take n x), (drop n x)]
+    where internSplit n x = [take n x, drop n x]
 
 toInt :: Char -> Int
 toInt c
-     | ord c > 96 = (ord c) - 96
-     | otherwise = (ord c) - 38
+     | ord c > 96 = ord c - 96
+     | otherwise = ord c - 38
 
 intersec xs ys = xs \\ (xs \\ ys)
 
@@ -57,7 +56,7 @@ solve l =  solving l 0
         solving (x:xs) n = solving xs (n + sum (rmdups x))
 
 solve_part2 :: [[Int]] -> Int
-solve_part2 l = sum . concat $ map rmdups l
+solve_part2 l = sum $ concatMap rmdups l
 
 solve_day3 :: IO ()
 solve_day3 = do
