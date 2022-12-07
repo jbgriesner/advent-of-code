@@ -1,6 +1,11 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 module Day2 (solve_day2) where
 
+import Utils (divide)
+
+dayNum :: Int
+dayNum = 2
+
 inputPath :: String
 inputPath = "./data/input_day2"
 
@@ -94,7 +99,8 @@ part2 :: String -> [Int]
 part2 x = map (\[x, y] -> fight x y) $ map (map fromString . words) $ map fromString_part2 $ lines x
 
 solve_day2 :: IO ()
-solve_day2 = do
+solve_day2 =
+    divide dayNum >> do
     putStr "     part1: "
     input >>= print . solve . part1
     putStr "     part2: "

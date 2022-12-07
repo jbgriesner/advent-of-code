@@ -34,6 +34,7 @@ executable advent-of-code-exe
       Day7
       Day8
       Days
+      Utils
       Paths_advent_of_code
   hs-source-dirs:
       src

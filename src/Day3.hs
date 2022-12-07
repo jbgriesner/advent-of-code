@@ -2,6 +2,10 @@ module Day3 (solve_day3) where
 
 import Data.Char
 import Data.List
+import Utils (divide)
+
+dayNum :: Int
+dayNum = 3
 
 inputPath :: String
 inputPath = "./data/input_day3"
@@ -59,7 +63,8 @@ solve_part2 :: [[Int]] -> Int
 solve_part2 l = sum $ concatMap rmdups l
 
 solve_day3 :: IO ()
-solve_day3 = do
+solve_day3 =
+    divide dayNum >> do
     putStr "     part1: "
     input >>= print . solve . part1
     putStr "     part2: "

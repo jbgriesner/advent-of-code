@@ -4,6 +4,10 @@ module Day1 (solve_day1) where
 import Text.Read
 import Data.List.Split
 import Data.List
+import Utils (divide)
+
+dayNum :: Int
+dayNum = 1
 
 inputPath :: String
 inputPath = "./data/input_day1"
@@ -25,6 +29,7 @@ solve l = tup $ take 3 $ reverse $ sort l
           tup _ = 0
 
 solve_day1 :: IO ()
-solve_day1 = do
+solve_day1 =
+    divide dayNum >> do
     putStr "     part2: "
     input >>= (print . solve) . process

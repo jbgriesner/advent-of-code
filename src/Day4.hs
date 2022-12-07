@@ -3,6 +3,10 @@ module Day4 (solve_day4) where
 
 import Data.List
 import Data.List.Split
+import Utils (divide)
+
+dayNum :: Int
+dayNum = 4
 
 inputPath :: String
 inputPath = "./data/input_day4"
@@ -44,7 +48,8 @@ solve_part2 :: [Bool] -> Int
 solve_part2 bs = sum $ map fromEnum bs
 
 solve_day4 :: IO ()
-solve_day4 = do
+solve_day4 =
+    divide dayNum >> do
     putStr "     part1: "
     input >>= print . solve_part1 . part1
     putStr "     part2: "

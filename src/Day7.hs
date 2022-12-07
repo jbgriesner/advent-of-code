@@ -5,6 +5,10 @@ import Data.List
 import Data.List.Split
 import Data.Map (Map)
 import qualified Data.Map as M
+import Utils (divide)
+
+dayNum :: Int
+dayNum = 7
 
 inputPath :: String
 inputPath = "./data/input_day7"
@@ -80,7 +84,8 @@ solve part s =
                  Nothing -> 0
 
 solve_day7 :: IO ()
-solve_day7 = do
+solve_day7 =
+    divide dayNum >> do
     putStr "     part1: "
     input >>= print . solve 1
     putStr "     part2: "
