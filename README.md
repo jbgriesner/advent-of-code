@@ -19,4 +19,7 @@ Final Result is:
 --- result of day 5 is:
      part1: "TDCHVHJTG"
      part2: "NGCMPJLHV"
+--- result of day 6 is:
+     part1: 1833
+     part2: 3425
 ```

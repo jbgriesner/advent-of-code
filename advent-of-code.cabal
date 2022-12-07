@@ -30,6 +30,7 @@ executable advent-of-code-exe
       Day3
       Day4
       Day5
+      Day6
       Days
       Paths_advent_of_code
   hs-source-dirs:
