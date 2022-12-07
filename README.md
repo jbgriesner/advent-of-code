@@ -22,4 +22,10 @@ Final Result is:
 --- result of day 6 is:
      part1: 1833
      part2: 3425
+--- result of day 7 is:
+     part1: 1783610
+     part2: 4370655
+--- result of day 8 is:
+     part1:
+     part2:
 ```
