@@ -17,3 +17,7 @@ main = do
     solve_day4
     divider 5
     solve_day5
+    divider 6
+    solve_day6
+    divider 7
+    solve_day7
