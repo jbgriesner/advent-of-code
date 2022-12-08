@@ -26,6 +26,6 @@ Final Result is:
      part1: 1783610
      part2: 4370655
 --- result of day 8 is:
-     part1:
-     part2:
+     part1: 1684
+     part2: 486540
 ```
