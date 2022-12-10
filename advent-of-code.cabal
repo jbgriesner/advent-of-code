@@ -26,6 +26,7 @@ executable advent-of-code-exe
   main-is: Main.hs
   other-modules:
       Day1
+      Day10
       Day2
       Day3
       Day4
@@ -33,6 +34,7 @@ executable advent-of-code-exe
       Day6
       Day7
       Day8
+      Day9
       Days
       Utils
       Paths_advent_of_code
@@ -42,6 +44,8 @@ executable advent-of-code-exe
   build-depends:
       base >=4.7 && <5
     , containers
+    , monad-logger
+    , mtl
     , split
     , text
     , unordered-containers

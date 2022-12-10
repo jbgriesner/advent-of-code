@@ -2,6 +2,7 @@ module Main (main) where
 
 import Days
 
+-- | Simple call to each solve method from all modules
 main :: IO ()
 main = do
     solve_day1
@@ -13,3 +14,4 @@ main = do
     solve_day7
     solve_day8
     solve_day9
+    solve_day10
