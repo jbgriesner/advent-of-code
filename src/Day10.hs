@@ -5,14 +5,12 @@ module Day10 (solve_day10) where
 
 import Data.List hiding (tails)
 import Utils
-import Control.Monad.Logger (MonadLogger, runStdoutLoggingT, logDebugN)
+import Control.Monad.Logger (MonadLogger, runStdoutLoggingT)
 import Control.Monad
-import qualified Data.Text as T
+-- import qualified Data.Text as T
 import Prelude hiding (Right, Down, Left, Up)
-import qualified Data.Set as S
-import Control.Monad.State
 import Data.Char (isDigit)
-import Control.Applicative (Alternative, empty, (<|>))
+import Control.Applicative ((<|>))
 import Data.Maybe
 
 dayNum :: Int

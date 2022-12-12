@@ -15,3 +15,4 @@ main = do
     solve_day8
     solve_day9
     solve_day10
+    solve_day11

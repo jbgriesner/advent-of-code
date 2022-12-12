@@ -6,6 +6,11 @@ import qualified Data.List as L
 import Control.Applicative (Alternative (empty, many, some, (<|>)), (<**>))
 import Data.Char           (isSpace, isDigit)
 
+-- | get product of 2 max elements of a list
+get2Max :: (Num a, Eq a, Ord a) => [a] -> a
+get2Max l = let l' = take 2 $ reverse $ L.sort l
+            in foldl (\x y -> x*y) 1 l'
+
 -- | output a separator with the result on stdout
 divide :: Int -> IO ()
 divide s = putStrLn $ "--- result of day " <> show s <> " is:"
@@ -60,3 +65,34 @@ charP c = Parser f
       | y == c = Just (c, ys)
       | otherwise = Nothing
     f [] = Nothing
+
+-- | Parser Op combinator
+(>==>) :: Parser a -> Parser (a -> a -> a) -> Parser (a -> a)
+(Parser p1) >==> (Parser p2) = Parser $ \input ->
+     case p1 input of
+      Just (x, input') -> case p2 input' of
+          Just (f, input'') -> Just (f x, input'')
+          Nothing -> Nothing
+      Nothing -> Nothing
+
+-- | Apply Parsed function
+($$) :: Parser (a -> a) -> Parser a -> Parser a
+(Parser p1) $$ (Parser p2) = Parser $ \input ->
+  case p1 input of
+    Just (f, input') -> case p2 input' of
+      Just (x, input'') -> Just (f x, input'')
+      Nothing -> Nothing
+    Nothing -> Nothing
+
+-- | type class for Parser
+class Parse a where
+    parser :: Parser a
+
+    fromString :: String -> a
+    fromString cs =
+        case runParser parser cs of
+            Just(s, []) -> s
+            Just(s, cs) -> error ("garbage ’"++cs++"’")
+            Nothing -> error "Nothing"
+
+    -- toString :: a -> String
