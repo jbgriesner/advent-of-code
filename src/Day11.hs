@@ -131,7 +131,9 @@ app :: MonadLogger m => Int -> Int -> [MonkeyRule] -> (Map Int [Int], Map Int In
 app mmm k mrs itemsMap = iterateM' (k-1) app' itemsMap
     where
         app' :: MonadLogger m => (Map Int [Int], Map Int Int) -> m (Map Int [Int], Map Int Int)
-        app' itemsMap = foldM (proceedMonkey mmm) itemsMap mrs
+        app' itemsMap = do
+            logDebugN (T.pack ".")
+            foldM (proceedMonkey mmm) itemsMap mrs
 
         iterateM' 0 f a = f a
         iterateM' n f a = f a >>= iterateM' (n-1) f
@@ -141,7 +143,8 @@ code1 s = do
     let monkeyRules = map toMonkey $ splitOn "\n\n" s
     let mmm = foldl (*) 1 $ map test monkeyRules
     let initMap = foldl getItems Map.empty monkeyRules
-    rounds <- forM [1..20] (\k -> app mmm k monkeyRules (initMap, Map.map (const 0) initMap))
+    -- rounds <- forM [1..2] (\k -> app mmm k monkeyRules (initMap, Map.map (const 0) initMap))
+    rounds <- app mmm 10000 monkeyRules (initMap, Map.map (const 0) initMap)
 
     logDebugN (T.pack "\n")
     logDebugN (T.pack $ "mmm --| " <> show mmm)
@@ -155,7 +158,8 @@ code1 s = do
     logDebugN (T.pack "\n")
     logDebugN (T.pack $ "rounds --| " <> show rounds)
     logDebugN (T.pack "\n")
-    return $ get2Max (map snd $ Map.assocs $ snd $ last rounds)
+    -- return $ get2Max (map snd $ Map.assocs $ snd $ last rounds)
+    return $ get2Max (map snd $ Map.assocs $ snd rounds)
 
 solve:: String -> IO ()
 solve s = do
