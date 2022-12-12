@@ -26,7 +26,7 @@ dayNum = 11
 
 input :: IO String
 input = readFile $ "./data/input_day" <> show dayNum
---input = readFile $ "./data/test"
+-- input = readFile $ "./data/test"
 
 data MonkeyRule = MR {
     id :: Int,
@@ -108,7 +108,8 @@ proceedMonkey mmm itemsMap mr =
         itemsMonkey = (fst itemsMap) ! (id mr)
         numberInspections = length itemsMonkey
         previousInspections = (snd itemsMap) ! (id mr)
-        newWorryLevels = map (`mod` 3) $ map (operation mr) itemsMonkey
+        -- newWorryLevels = map (`div` 3) $ map (operation mr) itemsMonkey
+        newWorryLevels = map (`mod` mmm) $ map (operation mr) itemsMonkey
         updatedMap = Map.insert (id mr) [] (fst itemsMap)
         divisible = test mr
         trueTo = sendTrueTo mr
