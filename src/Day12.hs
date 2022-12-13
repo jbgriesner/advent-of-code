@@ -144,6 +144,34 @@ code1 s = do
     -- logDebugN (T.pack $ "\n   result: " <> show result)
     return $ length $ fromJust $ result
 
+remove97 :: (Int, [(Int, Int)]) -> (Int, [(Int, Int)])
+remove97 (x, l) = (x, filter (\(_, x) -> x == 97) l)
+
+addY :: (Int, [(Int, Int)]) -> [(Int, Int)]
+addY (y, l) = map (\(x, _) -> (x, y)) l
+
+findAllStarts :: [[Int]] -> [(Int, Int)]
+findAllStarts l =
+    let
+        tt = map (zip [0..]) l
+        ttt = zip [0..] tt
+        tttt = map remove97 ttt
+     in concatMap addY tttt
+
+applyBfsWithThisStart :: MonadLogger m => Matrix -> (Int, Int) -> m Int
+applyBfsWithThisStart grid start' = 
+    let 
+        m' = grid { start = start'}
+    in do
+        logDebugN (T.pack $ "-- | applyBfsWithThisStart | --")
+        logDebugN (T.pack $ "      -- | trying this start: " <> show start')
+        result <- bfsM (validMoves m') (\c -> return (c == (end grid))) start'
+        let rez = case result of            
+                    Just x -> length x
+                    Nothing -> 11111111111
+        logDebugN (T.pack $ "      -- | result length is: " <> show rez)
+        return rez
+
 code2 :: MonadLogger m => String -> m Int
 code2 s = do
     let l = lines s
@@ -152,16 +180,16 @@ code2 s = do
     let end = findEnd m
     let mat = Matrix start end m
     newGrid <- postProcessGrid mat
-
-    result <- bfsM (validMoves newGrid) (\c -> return (c == end)) start
-  
+    let allStarts = findAllStarts m
+    -- result <- bfsM (validMoves newGrid) (\c -> return (c == end)) start
+    allResults <- forM allStarts (\x -> applyBfsWithThisStart newGrid x)
     -- logDebugN (T.pack $ "\n" <> show m)
-    -- logDebugN (T.pack $ "\n   start: " <> show start)
+    logDebugN (T.pack $ "\n   allResults: " <> show allResults)
     -- logDebugN (T.pack $ "\n   end: " <> show end)
     -- logDebugN (T.pack $ "\n   newGrid: " <> show newGrid)
     -- logDebugN (T.pack $ "\n   result: " <> show result)
-    return $ length $ fromJust $ result
-
+    return $ minimum allResults
+         
 run :: String -> IO ()
 run s = do
     runStdoutLoggingT (code1 s) >>= (\x -> putStrLn $ "     part 1: " <> show x)
