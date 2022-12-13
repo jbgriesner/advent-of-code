@@ -96,7 +96,7 @@ code2 inputs = do
 code1 :: MonadLogger m => String -> m Int
 code1 s = do
     let l = map toPacketPair $ splitOn "\n\n" s
-    logDebugN (T.pack $ "\n Packets: " <> show l)
+    --  logDebugN (T.pack $ "\n Packets: " <> show l)
     rez <- foldM foldLine 0 (zip [1,2..] l)
     return rez
 

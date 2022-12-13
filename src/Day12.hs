@@ -100,24 +100,24 @@ replace n newVal (x:xs)
 
 postProcessGrid :: (MonadLogger m) => Matrix -> m Matrix
 postProcessGrid g =
-    let (sx, sy) = start g     
+    let (sx, sy) = start g
         (ex, ey) = end g
 
         row1 = getRow sy g
         newRow1 = replace sx (ord 'a') row1
-        
+
         row2 = getRow ey g
         newRow2 = if ey == sy
             then replace ex (ord 'z') newRow1
             else replace ex (ord 'z') row2
 
-        newRows = if ey == sy 
+        newRows = if ey == sy
             then replace sy newRow2 $ rows g
             else replace sy newRow1 $ rows g
         newRows2 = if ey == sy
             then newRows
             else replace ey newRow2 newRows
-    in do       
+    in do
         -- logDebugN (T.pack $ "-- | postProcessGrid | --")
         -- logDebugN (T.pack $ "      -- | row2: " <> show row2)
         -- logDebugN (T.pack $ "      -- | newRow2: " <> show newRow2)
@@ -136,7 +136,7 @@ code1 s = do
     newGrid <- postProcessGrid mat
 
     result <- bfsM (validMoves newGrid) (\c -> return (c == end)) start
-  
+
     -- logDebugN (T.pack $ "\n" <> show m)
     -- logDebugN (T.pack $ "\n   start: " <> show start)
     -- logDebugN (T.pack $ "\n   end: " <> show end)
@@ -159,17 +159,17 @@ findAllStarts l =
      in concatMap addY tttt
 
 applyBfsWithThisStart :: MonadLogger m => Matrix -> (Int, Int) -> m Int
-applyBfsWithThisStart grid start' = 
-    let 
+applyBfsWithThisStart grid start' =
+    let
         m' = grid { start = start'}
     in do
-        logDebugN (T.pack $ "-- | applyBfsWithThisStart | --")
-        logDebugN (T.pack $ "      -- | trying this start: " <> show start')
+       -- logDebugN (T.pack $ "-- | applyBfsWithThisStart | --")
+       -- logDebugN (T.pack $ "      -- | trying this start: " <> show start')
         result <- bfsM (validMoves m') (\c -> return (c == (end grid))) start'
-        let rez = case result of            
+        let rez = case result of
                     Just x -> length x
                     Nothing -> 11111111111
-        logDebugN (T.pack $ "      -- | result length is: " <> show rez)
+       --  logDebugN (T.pack $ "      -- | result length is: " <> show rez)
         return rez
 
 code2 :: MonadLogger m => String -> m Int
@@ -184,12 +184,12 @@ code2 s = do
     -- result <- bfsM (validMoves newGrid) (\c -> return (c == end)) start
     allResults <- forM allStarts (\x -> applyBfsWithThisStart newGrid x)
     -- logDebugN (T.pack $ "\n" <> show m)
-    logDebugN (T.pack $ "\n   allResults: " <> show allResults)
+   --  logDebugN (T.pack $ "\n   allResults: " <> show allResults)
     -- logDebugN (T.pack $ "\n   end: " <> show end)
     -- logDebugN (T.pack $ "\n   newGrid: " <> show newGrid)
     -- logDebugN (T.pack $ "\n   result: " <> show result)
     return $ minimum allResults
-         
+
 run :: String -> IO ()
 run s = do
     runStdoutLoggingT (code1 s) >>= (\x -> putStrLn $ "     part 1: " <> show x)
