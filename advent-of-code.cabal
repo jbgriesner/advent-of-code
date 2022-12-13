@@ -48,6 +48,7 @@ executable advent-of-code-exe
     , containers
     , monad-logger
     , mtl
+    , search-algorithms
     , split
     , text
     , unordered-containers

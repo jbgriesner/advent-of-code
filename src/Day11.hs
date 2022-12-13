@@ -132,7 +132,7 @@ app mmm k mrs itemsMap = iterateM' (k-1) app' itemsMap
     where
         app' :: MonadLogger m => (Map Int [Int], Map Int Int) -> m (Map Int [Int], Map Int Int)
         app' itemsMap = do
-            logDebugN (T.pack ".")
+            -- logDebugN (T.pack ".")
             foldM (proceedMonkey mmm) itemsMap mrs
 
         iterateM' 0 f a = f a
@@ -146,18 +146,18 @@ code1 s = do
     -- rounds <- forM [1..2] (\k -> app mmm k monkeyRules (initMap, Map.map (const 0) initMap))
     rounds <- app mmm 10000 monkeyRules (initMap, Map.map (const 0) initMap)
 
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack $ "mmm --| " <> show mmm)
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack $ "monkeyRules --| " <> show monkeyRules)
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack $ "initMap --| " <> show initMap)
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack "\n")
-    logDebugN (T.pack $ "rounds --| " <> show rounds)
-    logDebugN (T.pack "\n")
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack $ "mmm --| " <> show mmm)
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack $ "monkeyRules --| " <> show monkeyRules)
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack $ "initMap --| " <> show initMap)
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack "\n")
+    -- logDebugN (T.pack $ "rounds --| " <> show rounds)
+    -- logDebugN (T.pack "\n")
     -- return $ get2Max (map snd $ Map.assocs $ snd $ last rounds)
     return $ get2Max (map snd $ Map.assocs $ snd rounds)
 

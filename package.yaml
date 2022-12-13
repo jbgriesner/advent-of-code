@@ -41,3 +41,4 @@ executables:
       - text
       - monad-logger
       - split
+      - search-algorithms
