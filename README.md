@@ -6,35 +6,45 @@ Final Result is:
 
 ```
 --- result of day 1 is:
-     part2: 199628
+     part 1: 67633
+     part 2: 199628
 --- result of day 2 is:
-     part1: 13052
-     part2: 13693
+     part 1: 13052
+     part 2: 13693
 --- result of day 3 is:
-     part1: 7831
-     part2: 2683
+     part 1: 7831
+     part 2: 2683
 --- result of day 4 is:
-     part1: 464
-     part2: 770
+     part 1: 464
+     part 2: 770
 --- result of day 5 is:
-     part1: "TDCHVHJTG"
-     part2: "NGCMPJLHV"
+     part 1: "TDCHVHJTG"
+     part 2: "NGCMPJLHV"
 --- result of day 6 is:
-     part1: 1833
-     part2: 3425
+     part 1: 1833
+     part 2: 3425
 --- result of day 7 is:
-     part1: 1783610
-     part2: 4370655
+     part 1: 1783610
+     part 2: 4370655
 --- result of day 8 is:
-     part1: 1684
-     part2: 486540
+     part 1: 1684
+     part 2: 486540
 --- result of day 9 is:
      part 1: 5883
      part 2: 2367
 --- result of day 10 is:
      part 1: 17180
-     part 2: "###..####.#..#.###..###..#....#..#.###..#..#.#....#..#.#..#.#..#.#....#..#.#..#.#..#.###..####.#..#.#..#.#....#..#.###..###..#....#..#.###..###..#....#..#.#..#.#.#..#....#..#.#....#.#..#....#..#.#..#.#..#.####.#..#.#....#..#.####..##..###.."
+     part 2:
+
+         ###..####.#..#.###..###..#....#..#.###..
+         #..#.#....#..#.#..#.#..#.#....#..#.#..#.
+         #..#.###..####.#..#.#..#.#....#..#.###..
+         ###..#....#..#.###..###..#....#..#.#..#.
+         #.#..#....#..#.#....#.#..#....#..#.#..#.
+         #..#.####.#..#.#....#..#.####..##..###..
+
 --- result of day 11 is:
+    part 1: 50830
     part 2: 14399640002
 --- result of day 12 is:
     part1: 437
@@ -42,4 +52,7 @@ Final Result is:
 --- result of day 13 is:
     part1: 6428
     part 2: 22464
+--- result of day 14 is:
+    part1: 873
+    part 2: 24813
 ```

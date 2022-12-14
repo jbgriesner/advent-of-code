@@ -5,9 +5,9 @@ module Day10 (solve_day10) where
 
 import Data.List hiding (tails)
 import Utils
-import Control.Monad.Logger (MonadLogger, runStdoutLoggingT)
+import Control.Monad.Logger (MonadLogger, runStdoutLoggingT, logDebugN)
 import Control.Monad
--- import qualified Data.Text as T
+import qualified Data.Text as T
 import Prelude hiding (Right, Down, Left, Up)
 import Data.Char (isDigit)
 import Control.Applicative ((<|>))
@@ -51,7 +51,7 @@ cycles = take 500 $ 20 : f 20
     where f n = (n+40) : f (n+40)
 
 code :: MonadLogger m => Int -> String -> m String
-code n s 
+code n s
     | n == 1 = code1 s
     | otherwise = code2 s
 
@@ -63,25 +63,24 @@ code2 :: MonadLogger m => String -> m String
 code2 s = let
         instructions = map fst $ mapMaybe (runParser instValue) $ lines s
         l = foldl app initHistory instructions
-        
-        l' = filter (\(Register _ c, _, _) -> c `elem` cycles ) l
+        l'' = intercalate "\n" $ map (\x -> reverse $ reverse x <> "         ") $ p40 $ (\(_, _, z) -> reverse z) $ head l
     in do
-        -- logDebugN (T.pack "\n") 
-        -- logDebugN (T.pack $ "instructions --| " <> show instructions) 
-        -- logDebugN (T.pack "\n") 
-        -- logDebugN (T.pack "\n") 
-        -- logDebugN (T.pack $ "history --| " <> show l) 
-        -- logDebugN (T.pack "\n") 
-        -- logDebugN (T.pack "\n") 
+        -- logDebugN (T.pack "\n")
+        -- logDebugN (T.pack $ "instructions --| " <> show instructions)
+        -- logDebugN (T.pack "\n")
+        -- logDebugN (T.pack "\n")
+        -- logDebugN (T.pack $ "history --| " <> show l)
+        -- logDebugN (T.pack "\n")
+        -- logDebugN (T.pack "\n")
         -- logDebugN (T.pack $ "output string --| " <> show ((\(x, y, z) -> z) $ head l) )
-        -- logDebugN (T.pack "\n") 
-        -- logDebugN (T.pack "\n") 
+        -- logDebugN (T.pack "\n")
+        -- logDebugN (T.pack "\n")
         -- logDebugN (T.pack $ "output reverse string --| " <> show ((\(x, y, z) -> reverse z) $ head l) )
-        -- logDebugN (T.pack "\n") 
+        logDebugN (T.pack $ "\n l'':\n" <> l'')
         return $ show ((\(x, y, z) -> reverse z) $ head l)
         where
             app :: History -> Instructions -> History
-            app l@((Register r c, _, stringOutput) : _) Noop = 
+            app l@((Register r c, _, stringOutput) : _) Noop =
                 let
                     newChar = if ((c - 1) `mod` 40) `elem` [r - 1, r, r + 1] then '#' else '.'
                 in (Register r (c+1), Noop, newChar : stringOutput) : l
@@ -104,7 +103,7 @@ code1 s =
             app l@((Register r c, _, _) : _) (AddX x) = (Register (r+x) (c+2), AddX x, "") : (Register r (c+1), AddX x, "") : l
 
 solvePart :: String -> Int -> IO ()
-solvePart s n = runStdoutLoggingT (code n s) >>= (\x -> putStrLn $ "     part " <> show n <> ": " <> show x)
+solvePart s n = runStdoutLoggingT (code n s) >>= (\x -> putStrLn $ "     part " <> show n <> ": \n\n" <> show x)
 
 solve_day10 :: IO ()
 solve_day10 = do
