@@ -18,3 +18,4 @@ main = do
     solve_day11
     solve_day12
     solve_day13
+    solve_day14
