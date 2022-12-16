@@ -26,10 +26,6 @@ import Data.Map (Map, (!))
 dayNum :: Int
 dayNum = 12
 
-input :: IO String
-input = readFile $ "./data/input_day" <> show dayNum
--- input = readFile $ "./data/test"
-
 data Matrix = Matrix {
     start :: (Int, Int),
     end :: (Int, Int),
@@ -198,5 +194,5 @@ run s = do
 solve_day12 :: IO ()
 solve_day12 = do
     divide dayNum
-    s <- input
+    s <- input dayNum
     run s

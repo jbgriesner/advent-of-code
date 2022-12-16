@@ -6,6 +6,15 @@ import qualified Data.List as L
 import Control.Applicative (Alternative (empty, many, some, (<|>)), (<**>))
 import Data.Char           (isSpace, isDigit)
 
+-- | data input function for each Day module
+input :: Int -> IO String
+input dayNum = readFile $ "./data/input_day" <> show dayNum
+-- input = readFile $ "./data/test"
+
+-- | data input function for each Day module with example data
+inputest :: IO String
+inputest = readFile $ "./data/test"
+
 -- | get product of 2 max elements of a list
 get2Max :: (Num a, Eq a, Ord a) => [a] -> a
 get2Max l = let l' = take 2 $ reverse $ L.sort l
@@ -92,7 +101,7 @@ class Parse a where
     fromString cs =
         case runParser parser cs of
             Just(s, []) -> s
-            Just(s, cs) -> error ("garbage ’"++cs++"’")
+            Just(s, cs) -> error ("cannot parse input: ’"++cs++"’")
             Nothing -> error "Nothing"
 
     -- toString :: a -> String

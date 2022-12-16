@@ -27,10 +27,6 @@ import Data.Map (Map, (!))
 dayNum :: Int
 dayNum = 13
 
-input :: IO String
-input = readFile $ "./data/input_day" <> show dayNum
--- input = readFile $ "./data/test"
-
 data Packet =
   IntPacket Int |
   ListPacket [Packet]
@@ -108,5 +104,5 @@ run s = do
 solve_day13 :: IO ()
 solve_day13 = do
     divide dayNum
-    s <- input
+    s <- input dayNum
     run s

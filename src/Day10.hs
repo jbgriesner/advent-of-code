@@ -16,10 +16,6 @@ import Data.Maybe
 dayNum :: Int
 dayNum = 10
 
-input :: IO String
-input = readFile $ "./data/input_day" <> show dayNum
--- input = readFile $ "./data/test"
-
 data Instructions = Noop | AddX Int deriving (Show)
 
 instValue :: Parser Instructions
@@ -108,5 +104,5 @@ solvePart s n = runStdoutLoggingT (code n s) >>= (\x -> putStrLn $ "     part " 
 solve_day10 :: IO ()
 solve_day10 = do
     divide dayNum
-    s <- input
+    s <- input dayNum
     forM_ [1,2] $ solvePart s

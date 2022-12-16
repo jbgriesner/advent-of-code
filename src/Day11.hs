@@ -24,10 +24,6 @@ import Data.Map (Map, (!))
 dayNum :: Int
 dayNum = 11
 
-input :: IO String
-input = readFile $ "./data/input_day" <> show dayNum
--- input = readFile $ "./data/test"
-
 data MonkeyRule = MR {
     id :: Int,
     items :: [Int],
@@ -193,5 +189,5 @@ solve s = do
 solve_day11 :: IO ()
 solve_day11 = do
     divide dayNum
-    s <- input
+    s <- input dayNum
     solve s

@@ -28,10 +28,6 @@ import Data.Map (Map, (!))
 dayNum :: Int
 dayNum = 14
 
-input :: IO String
-input = readFile $ "./data/input_day" <> show dayNum
--- input = readFile $ "./data/test"
-
 type Pos = (Int, Int)
 data Element = Air | Rock | Sand | Start deriving (Enum, Eq)
 
@@ -52,7 +48,7 @@ instance Parse Path where
             listP = InputPath <$> sepBy sep pairP
                 where
                     pairP :: Parser (Int, Int)
-                    pairP = ((,) <$> (intP <* charP ',') <*> intP)
+                    pairP = (,) <$> (intP <* charP ',') <*> intP
 
                     sep = stringP " -> "
 
@@ -188,16 +184,14 @@ code k s = do
     let l = map toPath $ lines s
    --  logDebugN (T.pack $ "\n Paths: " <> show l)
     let rez = map generateFullPath l
-    let l' = concat $ map (\(FullPath r) -> r) rez
+    let l' = concatMap (\(FullPath r) -> r) rez
     let cave = foldl foldCave initCave l'
    --  logDebugN (T.pack $ "\n cave: " <> show cave)
     let dims = if k == 1 then getCaveDimensions cave else getCaveInfiniteDimensions cave
    --  logDebugN (T.pack $ "\n dimensions: " <> show dims)
     let filledCave = if k == 1 then fillCave cave dims else addRocksBottom (fillCave cave dims) dims
    --  logDebugN (T.pack $ "\n filledCave: \n" <> printCave filledCave)
-    o <- getIndex 0 filledCave
-    -- rez <- foldM foldLine 0 (zip [1,2..] l)
-    return o
+    getIndex 0 filledCave
 
 run :: String -> IO ()
 run s = do
@@ -207,5 +201,5 @@ run s = do
 solve_day14 :: IO ()
 solve_day14 = do
     divide dayNum
-    s <- input
+    s <- input dayNum
     run s
