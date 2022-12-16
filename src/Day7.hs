@@ -1,11 +1,36 @@
-
-module Day7 (solve_day7) where
+module Day7 (solve_day7, day07part1, day07part2) where
 
 import Data.List
 import Data.List.Split
 import Data.Map (Map)
 import qualified Data.Map as M
 import Utils (divide)
+
+import Common.Day
+
+day07part1 :: Day
+day07part1 =
+  Day 
+    { name = "day07part1",
+      friendlyName = "Day 07 Part 1",
+      isDefault = True,
+      run = do
+        input <- readFileContents "puzzleinput/day07.txt"
+        let result = totalSize input
+        print result
+    }
+
+day07part2 :: Day
+day07part2 =
+  Day
+    { name = "day07part2",
+      friendlyName = "Day 07 Part 2",
+      isDefault = True,
+      run = do
+        input <- readFileContents "puzzleinput/day07.txt"
+        let result = totalSizeOfDirectoryToDelete input
+        print result
+    }
 
 dayNum :: Int
 dayNum = 7

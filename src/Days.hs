@@ -1,21 +1,7 @@
-module Days (
-    solve_day1
-  , solve_day2
-  , solve_day3
-  , solve_day4
-  , solve_day5
-  , solve_day6
-  , solve_day7
-  , solve_day8
-  , solve_day9
-  , solve_day10
-  , solve_day11
-  , solve_day12
-  , solve_day13
-  , solve_day14
-  , solve_day15
-  , solve_day16) where
+module Days (runDays) where
 
+import Common.Day (Day)
+import qualified Common.Day.IO
 import Day1 (solve_day1)
 import Day2 (solve_day2)
 import Day3 (solve_day3)
@@ -32,3 +18,30 @@ import Day13 (solve_day13)
 import Day14 (solve_day14)
 import Day15 (solve_day15)
 import Day16 (solve_day16)
+
+allDays :: [Day]
+allDays =
+  [ day01part1,
+    day01part2,
+    day02part1,
+    day02part2,
+    day03part1,
+    day03part2,
+    day04part1,
+    day04part2,
+    day05part1,
+    day05part2,
+    day06part1,
+    day06part2,
+    day07part1,
+    day07part2,
+    day08part1,
+    day08part2,
+    day09part1,
+    day09part2,
+    day10part1,
+    day10part2
+  ]
+
+runDays :: [String] -> IO ()
+runDays = Common.Day.IO.runDays allDays
