@@ -76,6 +76,15 @@ charP c = Parser f
     f [] = Nothing
 
 -- | Parser Op combinator
+(>>>) :: Parser (a -> b) -> Parser a -> Parser b
+(Parser p1) >>> (Parser p2) = Parser $ \input ->
+     case p1 input of
+      Just (f, input') -> case p2 input' of
+          Just (x, input'') -> Just (f x, input'')
+          Nothing -> Nothing
+      Nothing -> Nothing
+
+-- | Parser Op combinator
 (>==>) :: Parser a -> Parser (a -> a -> a) -> Parser (a -> a)
 (Parser p1) >==> (Parser p2) = Parser $ \input ->
      case p1 input of
@@ -102,6 +111,6 @@ class Parse a where
         case runParser parser cs of
             Just(s, []) -> s
             Just(s, cs) -> error ("cannot parse input: ’"++cs++"’")
-            Nothing -> error "Nothing"
+            Nothing -> error ("Nothing from:" <> cs)
 
     -- toString :: a -> String
