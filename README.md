@@ -2,12 +2,6 @@
 
 This repository is my personal participation to the [Advent of Code 2022](https://adventofcode.com/). This is a full Haskell solution. Feel free to check `/src` folder to see implementations.
 
-# [Advent of Code 2022](https://adventofcode.com/2022)
-
-### my answers
-
-Development occurs in language-specific directories:
-
 | [Implementations](src) | Results |
 |--:|--:|--:|--:|
 |[Day1.hs](src/Day1.hs)| - part 1: 67633\n - part 2: 199628|
