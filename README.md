@@ -55,4 +55,7 @@ Final Result is:
 --- result of day 14 is:
     part1: 873
     part 2: 24813
+--- result of day 15 is:
+    part1: 5688618
+    part 2: 12625383204261
 ```
