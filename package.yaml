@@ -16,6 +16,7 @@ dependencies:
   - containers
   - unordered-containers
   - text
+  - heap ^>=1.0.4
   - mtl
 
 ghc-options:
