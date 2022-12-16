@@ -3,7 +3,7 @@
 This repository is my personal participation to the [Advent of Code 2022](https://adventofcode.com/). This is a full Haskell solution. Feel free to check `/src` folder to see implementations.
 
 | [Implementations](src) | Results |
-|--:|--:|--:|--:|
+|--:|--:|
 |[Day1.hs](src/Day1.hs)| - part 1: 67633\n - part 2: 199628|
 |[Day2.hs](src/Day2.hs)| - part 1: 13052\n - part 2: 13693|
 |[Day3.hs](src/Day3.hs)| - part 1: 7831\n - part 2: 2683|
