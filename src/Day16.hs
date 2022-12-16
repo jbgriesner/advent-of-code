@@ -34,7 +34,7 @@ code k s = return 0
 run :: String -> IO ()
 run s = do
     runStdoutLoggingT (code 1 s) >>= (\x -> putStrLn $ "     part 1: " <> show x)
-    runStdoutLoggingT (code 2 s) >>= (\x -> putStrLn $ "     part 2: " <> show x)
+    -- runStdoutLoggingT (code 2 s) >>= (\x -> putStrLn $ "     part 2: " <> show x)
 
 solve_day16 :: IO ()
 solve_day16 = do

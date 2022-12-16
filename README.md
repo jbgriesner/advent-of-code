@@ -2,60 +2,27 @@
 
 This repository is my personal participation to the [Advent of Code 2022](https://adventofcode.com/). This is a full Haskell solution. Feel free to check `/src` folder to see implementations.
 
-Final Result is:
+# [Advent of Code 2022](https://adventofcode.com/2022)
 
-```
---- result of day 1 is:
-     part 1: 67633
-     part 2: 199628
---- result of day 2 is:
-     part 1: 13052
-     part 2: 13693
---- result of day 3 is:
-     part 1: 7831
-     part 2: 2683
---- result of day 4 is:
-     part 1: 464
-     part 2: 770
---- result of day 5 is:
-     part 1: "TDCHVHJTG"
-     part 2: "NGCMPJLHV"
---- result of day 6 is:
-     part 1: 1833
-     part 2: 3425
---- result of day 7 is:
-     part 1: 1783610
-     part 2: 4370655
---- result of day 8 is:
-     part 1: 1684
-     part 2: 486540
---- result of day 9 is:
-     part 1: 5883
-     part 2: 2367
---- result of day 10 is:
-     part 1: 17180
-     part 2:
+### my answers
 
-         ###..####.#..#.###..###..#....#..#.###..
-         #..#.#....#..#.#..#.#..#.#....#..#.#..#.
-         #..#.###..####.#..#.#..#.#....#..#.###..
-         ###..#....#..#.###..###..#....#..#.#..#.
-         #.#..#....#..#.#....#.#..#....#..#.#..#.
-         #..#.####.#..#.#....#..#.####..##..###..
+Development occurs in language-specific directories:
 
---- result of day 11 is:
-    part 1: 50830
-    part 2: 14399640002
---- result of day 12 is:
-    part1: 437
-    part 2: 430
---- result of day 13 is:
-    part1: 6428
-    part 2: 22464
---- result of day 14 is:
-    part1: 873
-    part 2: 24813
---- result of day 15 is:
-    part1: 5688618
-    part 2: 12625383204261
-```
+| [Implementations](src) | Results |
+|--:|--:|--:|--:|
+|[Day1.hs](src/Day1.hs)| - part 1: 67633\n - part 2: 199628|
+|[Day2.hs](src/Day2.hs)| - part 1: 13052\n - part 2: 13693|
+|[Day3.hs](src/Day3.hs)| - part 1: 7831\n - part 2: 2683|
+|[Day4.hs](src/Day4.hs)| - part 1: 464\n - part 2: 770|
+|[Day5.hs](src/Day5.hs)| - part 1: "TDCHVHJTG"\n - part 2: "NGCMPJLHV"|
+|[Day6.hs](src/Day6.hs)| - part 1: 1833\n - part 2: 3425|
+|[Day7.hs](src/Day7.hs)| - part 1: 1783610\n - part 2: 4370655|
+|[Day8.hs](src/Day8.hs)| - part 1: 1684\n - part 2: 486540|
+|[Day9.hs](src/Day9.hs)| - part 1: 5883\n - part 2: 2367|
+|[Day10.hs](src/Day10.hs)| - part 1: 17180\n - part 2: "REHPRLUB"|
+|[Day11.hs](src/Day11.hs)| - part 1: 50830\n - part 2: 14399640002|
+|[Day12.hs](src/Day12.hs)| - part 1: 437\n - part 2: 430|
+|[Day13.hs](src/Day13.hs)| - part 1: 6428\n - part 2: 22464|
+|[Day14.hs](src/Day14.hs)| - part 1: 873\n - part 2: 24813|
+|[Day15.hs](src/Day15.hs)| - part 1: 5688618\n - part 2: 12625383204261|
+|[Day16.hs](src/Day16.hs)| - part 1: \n - part 2: | 
