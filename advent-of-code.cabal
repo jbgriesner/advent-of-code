@@ -33,6 +33,8 @@ executable advent-of-code-exe
       Day14
       Day15
       Day16
+      Day17
+      Day18
       Day2
       Day3
       Day4
@@ -42,6 +44,7 @@ executable advent-of-code-exe
       Day8
       Day9
       Days
+      Test
       Utils
       Paths_advent_of_code
   hs-source-dirs:
@@ -57,4 +60,5 @@ executable advent-of-code-exe
     , split
     , text
     , unordered-containers
+    , vector
   default-language: Haskell2010

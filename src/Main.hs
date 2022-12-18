@@ -21,3 +21,5 @@ main = do
     solve_day14
     solve_day15
     solve_day16
+    solve_day17
+    solve_day18

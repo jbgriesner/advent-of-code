@@ -20,3 +20,5 @@ This repository is my personal participation to the [Advent of Code 2022](https:
 | [Day14.hs](src/Day14.hs)| 873 |24813|
 | [Day15.hs](src/Day15.hs)| 5688618 |12625383204261|
 | [Day16.hs](src/Day16.hs)| 2330 | 2675 | 
+| [Day17.hs](src/Day17.hs)| 3215 | 1575811209487 | 
+| [Day18.hs](src/Day18.hs)| 4310 | 2466 | 
