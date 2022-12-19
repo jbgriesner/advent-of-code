@@ -1,11 +1,14 @@
 module Day19 (solve_day19) where
 
 import Data.List
+import Control.Monad.Logger (MonadLogger, runStdoutLoggingT, logDebugN)
+import Utils (input, inputest, Parse (..), Parser (..), charP)
+import Utils
 
 dayNum :: Int
 dayNum = 19
 
-code :: MonadLogger m => Int -> String -> m (Int, Int)
+code :: MonadLogger m => Int -> String -> m Int
 code k s
     | k == 1 = do
         return 1
@@ -20,6 +23,6 @@ run s = do
 solve_day19 :: IO ()
 solve_day19 = do
     divide dayNum
-    s <- input dayNum
-    -- s <- inputest 
+    -- s <- input dayNum
+    s <- inputest
     run s

@@ -88,16 +88,16 @@ instance Parse LineType where
     parser = LineType <$> (((,) <$> sP) <*> bP)
         where
             sP, bP :: Parser (Int, Int)
-            sP = (,) 
-                        <$> (stringP "Sensor at x=" *> (number <|> negativeNumber) <* stringP ", y=") 
+            sP = (,)
+                        <$> (stringP "Sensor at x=" *> (number <|> negativeNumber) <* stringP ", y=")
                         <*> (number <|> negativeNumber)
 
-            bP = (,) 
-                        <$> (stringP ": closest beacon is at x=" *> (number <|> negativeNumber) <* stringP ", y=") 
+            bP = (,)
+                        <$> (stringP ": closest beacon is at x=" *> (number <|> negativeNumber) <* stringP ", y=")
                         <*> (number <|> negativeNumber)
 
             number :: Parser Int
-            number = read <$> notNull (spanP isDigit) 
+            number = read <$> notNull (spanP isDigit)
 
             negativeNumber :: Parser Int
             negativeNumber = f <$> notNull (stringP "-" *> spanP isDigit)
@@ -124,34 +124,32 @@ fillGrid (G grid) ((a,b), (c,d)) =
                   Nothing -> Map.insert p (p, Air) m
                   Just _ -> m
 
--- | @Receives the main grid and a list of senors positions
--- | @Returns the grid with the positions updated with NoBeacon
-findEmptySpots :: 
+findEmptySpots ::
     Grid        -- main grid of sensors and beacons
     -> [Pos]    -- list of positions of sensors
     -> Grid     -- the result grid
 findEmptySpots (G g) ps = G $ foldl f g ps
 
-f :: Map Pos (Pos, Element) -> Pos -> Map Pos (Pos, Element) 
+f :: Map Pos (Pos, Element) -> Pos -> Map Pos (Pos, Element)
 f m p = case Map.lookup p m of
     Nothing -> m
-    Just (p2, _) -> let dist = distance p2 p 
-                        pss = getClosestPos p dist 
+    Just (p2, _) -> let dist = distance p2 p
+                        pss = getClosestPos p dist
                     in foldl gg m pss
 
 gg :: Map Pos (Pos, Element) -> Pos -> Map Pos (Pos, Element)
-gg m' p' = case Map.lookup p' m' of 
-    Nothing -> m' 
-    Just (_, Air) -> Map.insert p' (p', NoBeacon) m' 
+gg m' p' = case Map.lookup p' m' of
+    Nothing -> m'
+    Just (_, Air) -> Map.insert p' (p', NoBeacon) m'
     Just (_, _) -> m'
-    
+
 getClosestPos :: Pos -> Int -> [Pos]
-getClosestPos (p1, p2) d = 
+getClosestPos (p1, p2) d =
     let l = [(x,y) | x <- [(p1-d)..(p1+d)], y <- [(p2-d)..(p2+d)]]
         in foldl (\ls p -> if distance p (p1, p2) <= d then p:ls else ls) [] l
 
 getRow :: Int -> Grid -> [(Pos, Element)]
-getRow k (G m) = 
+getRow k (G m) =
     let filtered = Map.filterWithKey (\(_, y) _ -> y == k) m
     in map (\(x, z) -> (x, snd z)) $ Map.toList filtered
 
@@ -174,7 +172,7 @@ mergeIntervals intervals = do
   where
     mergeTail :: (MonadLogger m) => [Interval] -> Interval -> [Interval] -> m [Interval]
     mergeTail accum current [] = return $ reverse (current : accum)
-    mergeTail accum current@(cStart, cEnd) (first@(fStart, fEnd) : rest) = if fStart > cEnd 
+    mergeTail accum current@(cStart, cEnd) (first@(fStart, fEnd) : rest) = if fStart > cEnd
       then mergeTail (current : accum) first rest
       else mergeTail accum (cStart, max cEnd fEnd) rest
 
@@ -217,34 +215,34 @@ findHardSolution Nothing = return Nothing
 findHardSolution (Just (col, row)) = return $ Just $ fromIntegral col * 4000000 + fromIntegral row
 
 code :: MonadLogger m => Int -> String -> m Int
-code k s 
+code k s
     | k == 1 = do
         let (Devices devices) = parseInput s
         let devices' = map (\(LineType x) -> x) devices
-        
+
         resultingIntervals <- mapM (excludedCoords 2000000) devices'
         mergedIntervals <- mergeIntervals (catMaybes resultingIntervals)
         let beacons = nub $ filter (\c@(_, y) -> y == 2000000) (snd <$> devices')
         countIntervalsExcludingBeacons mergedIntervals (fst <$> beacons)
-        
+
     | otherwise = do
         let (Devices devices) = parseInput s
         let devices' = map (\(LineType x) -> x) devices
-        logDebugN (T.pack $ "\n        devices': " <> show devices') 
+        logDebugN (T.pack $ "\n        devices': " <> show devices')
         rez <- processInputHard devices' 4000000
-        logDebugN (T.pack $ "\n        rez: " <> show rez) 
+        logDebugN (T.pack $ "\n        rez: " <> show rez)
         r <- findHardSolution rez
-        logDebugN (T.pack $ "\n        r: " <> show r) 
-        case r of 
+        logDebugN (T.pack $ "\n        r: " <> show r)
+        case r of
             Nothing -> return 0
             Just x -> return x
 
     -- let devices' = map (\(LineType x) -> x) devices
     -- let sensors = map fst devices'
     -- let dims = getDimensions devices'
-    -- -- logDebugN (T.pack $ "\n        devices': " <> show devices')  
+    -- -- logDebugN (T.pack $ "\n        devices': " <> show devices')
     -- -- logDebugN (T.pack $ "\n        dimensions: " <> show dims)
-    -- let grid = foldl foldSensors initGrid devices' 
+    -- let grid = foldl foldSensors initGrid devices'
     -- -- logDebugN (T.pack $ "\n        grid': " <> show grid')
     -- let grid' = fillGrid grid dims
     -- -- -- logDebugN (T.pack $ "\n        grid'': " <> show grid'')
@@ -257,7 +255,7 @@ code k s
     -- let row = getRow 2000000 grid''
     -- -- logDebugN (T.pack $ "\n        row: \n" <> show row)
     -- -- return 1
-    -- return $ foldl (\k el -> case snd el of 
+    -- return $ foldl (\k el -> case snd el of
     --                         NoBeacon -> k+1
     --                         _ -> k) 0 row
 
@@ -270,5 +268,5 @@ solve_day15 :: IO ()
 solve_day15 = do
     divide dayNum
     s <- input dayNum
-    -- s <- inputest 
+    -- s <- inputest
     run s

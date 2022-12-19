@@ -43,7 +43,7 @@ dayNum = 16
 -- | Parse Input Tools
 newtype Valve = Valve String deriving (Eq)
 
-instance Show Valve where 
+instance Show Valve where
     show (Valve s) = s
 
 data LineType = L {
@@ -56,11 +56,11 @@ instance Parse LineType where
     parser = (L <$> valveP) >>> numberP >>> valvesP
         where
             sepBy :: Parser String -> Parser Valve -> Parser [Valve]
-            sepBy sep element = (:) <$> element <*> many (sep *> element) <|> pure []  
+            sepBy sep element = (:) <$> element <*> many (sep *> element) <|> pure []
 
             valvesP :: Parser [Valve]
             valvesP = (stringP "; tunnel " <|> stringP "; tunnels ") *> ((stringP "lead " <|> stringP "leads ") *> ((stringP "to valve "<|> stringP "to valves ") *> valves))
-                where 
+                where
                     valves = sepBy sep vP
                     sep = stringP ", "
 
@@ -74,12 +74,63 @@ instance Parse LineType where
             nameP = spanP isAlpha
 
             numberP :: Parser Int
-            numberP = read <$> notNull (spanP isDigit) 
+            numberP = read <$> notNull (spanP isDigit)
 
 parseInput :: String -> [LineType]
 parseInput s = map Utils.fromString $ lines s
 
 -- | Core Solution
+code :: MonadLogger m => Int -> String -> m Int
+code k s = do
+    let n = if k == 1 then 1 else 2
+    let m = if k == 1 then 30 else 26
+    let l = map (\(L (Valve v) f t) -> (v, (f, map (\(Valve vv) -> vv) t))) $ parseInput s
+    let gr = Map.fromList $ l
+    logDebugN (T.pack $ "\n        gr: " <> show gr)
+    let distances = fmap getSum . shortestPaths $ Map.fromList [((a, b), Sum 1) | (a, (_, bs)) <- Map.assocs gr, b <- bs]
+        next (_, _, _, _, 0) = (Nothing, [])
+        next (rooms, valves, flow, total, time)
+            | null options = (Just estimate, [(estimate, (rooms, valves, flow, estimate, 0))])
+            | otherwise = (Just potential, options)
+            where
+                estimate = total + flow * time
+                potential = estimate + sum
+                    [ maximum $ 0 :
+                    [ rate * (time - d - 1)
+                        | (room, age) <- nubOrd rooms
+                        , d <- maybeToList $ subtract age <$> distances Map.!? (room, room')
+                        , 0 <= d && d < time
+                    ]
+                    | (room', rate) <- Map.assocs valves
+                    ]
+                moves = IntMap.fromListWith (IntMap.unionWith (<>))
+                    [ (d, IntMap.singleton i [(room', rate)])
+                    | (i, (room, age)) <- zip [0..] rooms
+                    , (room', rate) <- Map.assocs valves
+                    , d <- maybeToList $ subtract age <$> distances Map.!? (room, room')
+                    , 0 <= d && d < time
+                    ]
+                options =
+                    [ ( estimate + rate * (time - d - 1)
+                        , ( sort $ (second (d + 1 +) <$> rooms) // zip is ((, 0) <$> rooms')
+                        , Map.withoutKeys valves $ Set.fromList rooms'
+                        , flow + rate
+                        , total + flow * (d + 1)
+                        , time - d - 1
+                        )
+                        )
+                    | (d, moves') <- IntMap.assocs moves
+                    , (is, moves'') <- fmap unzip . filterM (const [False, True]) $ IntMap.assocs moves'
+                    , moves'''@(_:_) <- sequence moves''
+                    , let (rooms', sum -> rate) = unzip moves'''
+                    , and . zipWith Set.notMember rooms' $ scanl' (flip Set.insert) Set.empty rooms'
+                    ]
+
+        max' total (rooms, valves, flows, total', time)
+            | total' > total = traceShow (rooms, Map.keys valves, flows, total', time) total'
+            | otherwise = total
+
+    pure . foldl' max' 0 $ search next (0, (replicate n ("AA", 0), Map.filter (> 0) $ fst <$> gr, 0, 0, m))
 
 search :: (Ord a, Ord b) => (a -> (Maybe b, [(b, a)])) -> (b, a) -> [a]
 search next = search' Set.empty Nothing . Heap.singleton @Heap.FstMaxPolicy where
@@ -113,62 +164,6 @@ as // ias = update (zip [0..] as) ias where
     update as _ = snd <$> as
 infixl 9 //
 
--- |
-
-code :: MonadLogger m => Int -> String -> m Int
-code k s = do
-            let n = if k == 1 then 1 else 2
-            let m = if k == 1 then 30 else 26
-            let l = map (\(L (Valve v) f t) -> (v, (f, map (\(Valve vv) -> vv) t))) $ parseInput s
-            let gr = Map.fromList $ l
-            logDebugN (T.pack $ "\n        gr: " <> show gr)
-            let distances = fmap getSum . shortestPaths $ Map.fromList
-                                        [((a, b), Sum 1) | (a, (_, bs)) <- Map.assocs gr, b <- bs]
-
-                next (_, _, _, _, 0) = (Nothing, [])
-                next (rooms, valves, flow, total, time)
-                    | null options = (Just estimate, [(estimate, (rooms, valves, flow, estimate, 0))])
-                    | otherwise = (Just potential, options)
-                    where
-                        estimate = total + flow * time
-                        potential = estimate + sum
-                            [ maximum $ 0 :
-                            [ rate * (time - d - 1)
-                                | (room, age) <- nubOrd rooms
-                                , d <- maybeToList $ subtract age <$> distances Map.!? (room, room')
-                                , 0 <= d && d < time
-                            ]
-                            | (room', rate) <- Map.assocs valves
-                            ]
-                        moves = IntMap.fromListWith (IntMap.unionWith (<>))
-                            [ (d, IntMap.singleton i [(room', rate)])
-                            | (i, (room, age)) <- zip [0..] rooms
-                            , (room', rate) <- Map.assocs valves
-                            , d <- maybeToList $ subtract age <$> distances Map.!? (room, room')
-                            , 0 <= d && d < time
-                            ]
-                        options =
-                            [ ( estimate + rate * (time - d - 1)
-                                , ( sort $ (second (d + 1 +) <$> rooms) // zip is ((, 0) <$> rooms')
-                                , Map.withoutKeys valves $ Set.fromList rooms'
-                                , flow + rate
-                                , total + flow * (d + 1)
-                                , time - d - 1
-                                )
-                                )
-                            | (d, moves') <- IntMap.assocs moves
-                            , (is, moves'') <- fmap unzip . filterM (const [False, True]) $ IntMap.assocs moves' 
-                            , moves'''@(_:_) <- sequence moves''
-                            , let (rooms', sum -> rate) = unzip moves'''
-                            , and . zipWith Set.notMember rooms' $ scanl' (flip Set.insert) Set.empty rooms'
-                            ]
-
-                max' total (rooms, valves, flows, total', time)
-                    | total' > total = traceShow (rooms, Map.keys valves, flows, total', time) total'
-                    | otherwise = total
-
-            pure . foldl' max' 0 $ search next (0, (replicate n ("AA", 0), Map.filter (> 0) $ fst <$> gr, 0, 0, m))
-                                    
 run :: String -> IO ()
 run s = do
     runStdoutLoggingT (code 1 s) >>= (\x -> putStrLn $ "     part 1: " <> show x)
@@ -178,5 +173,5 @@ solve_day16 :: IO ()
 solve_day16 = do
     divide dayNum
     s <- input dayNum
-    -- s <- inputest 
+    -- s <- inputest
     run s
