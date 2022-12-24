@@ -38,6 +38,8 @@ executable advent-of-code-exe
       Day19
       Day2
       Day20
+      Day21
+      Day22
       Day3
       Day4
       Day5
@@ -57,6 +59,7 @@ executable advent-of-code-exe
     , containers
     , hashable
     , heap >=1.0.4 && <1.1
+    , megaparsec
     , monad-logger
     , mtl
     , parsec

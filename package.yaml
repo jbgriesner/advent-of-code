@@ -21,6 +21,7 @@ dependencies:
   - vector
   - parsec
   - hashable
+  - megaparsec
 
 ghc-options:
   - -Wall

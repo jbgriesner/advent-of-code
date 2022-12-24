@@ -19,6 +19,7 @@ module Days (
   , solve_day18
   , solve_day19
   , solve_day20
+  , solve_day21
 ) where
 
 import Day1 (solve_day1)
@@ -41,3 +42,4 @@ import Day17 (solve_day17)
 import Day18 (solve_day18)
 import Day19 (solve_day19)
 import Day20 (solve_day20)
+import Day21 (solve_day21)
