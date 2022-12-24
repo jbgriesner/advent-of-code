@@ -19,6 +19,8 @@ dependencies:
   - heap ^>=1.0.4
   - mtl
   - vector
+  - parsec
+  - hashable
 
 ghc-options:
   - -Wall

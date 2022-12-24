@@ -264,6 +264,6 @@ solve_day17 :: IO ()
 solve_day17 = do
     print "4"
     divide dayNum
-    -- s <- input dayNum
-    s <- inputest
+    s <- input dayNum
+    -- s <- inputest
     run s

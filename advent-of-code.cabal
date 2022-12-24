@@ -54,9 +54,11 @@ executable advent-of-code-exe
   build-depends:
       base >=4.7 && <5
     , containers
+    , hashable
     , heap >=1.0.4 && <1.1
     , monad-logger
     , mtl
+    , parsec
     , search-algorithms
     , split
     , text
