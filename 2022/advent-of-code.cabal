@@ -1,0 +1,72 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.0.
+--
+-- see: https://github.com/sol/hpack
+
+name:           advent-of-code
+version:        0.1.0.0
+description:    Please see the README on GitHub at https://github.com/jbgriesner/advent-of-code-2022
+homepage:       https://github.com/jbgriesner/advent-of-code-2022#readme
+bug-reports:    https://github.com/jbgriesner/advent-of-code-2022/issues
+author:         JB Griesner
+maintainer:     JB Griesner
+copyright:      2022 JB Griesner
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/jbgriesner/advent-of-code-2022
+
+executable advent-of-code-exe
+  main-is: Main.hs
+  other-modules:
+      Day1
+      Day10
+      Day11
+      Day12
+      Day13
+      Day14
+      Day15
+      Day16
+      Day17
+      Day18
+      Day19
+      Day2
+      Day20
+      Day21
+      Day22
+      Day23
+      Day3
+      Day4
+      Day5
+      Day6
+      Day7
+      Day8
+      Day9
+      Days
+      Test
+      Utils
+      Paths_advent_of_code
+  hs-source-dirs:
+      src
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wmissing-export-lists -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , containers
+    , hashable
+    , heap >=1.0.4 && <1.1
+    , megaparsec
+    , monad-logger
+    , mtl
+    , parsec
+    , search-algorithms
+    , split
+    , text
+    , unordered-containers
+    , vector
+  default-language: Haskell2010
