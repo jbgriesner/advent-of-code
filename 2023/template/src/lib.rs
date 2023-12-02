@@ -1,5 +1,5 @@
-mod part1;
-mod part2;
+pub mod part1;
+pub mod part2;
 
 #[cfg(test)]
 mod tests {
