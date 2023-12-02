@@ -1,29 +1,23 @@
-pub fn process_part1(s: &str) -> String {
-    let rez = "one";
-    rez.to_string()
-}
-
-pub fn process_part2(s: &str) -> String {
-    let rez = "two";
-    rez.to_string()
-}
-
+mod part1;
+mod part2;
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    const INPUT: &str = "";
+    const INPUT1: &str = "";
+
+    const INPUT2: &str = "";
 
     #[test]
     fn part1() {
-        let result = process_part1(INPUT);
+        let result = part1::process(INPUT1);
         // assert_eq!(result, "");
     }
 
     #[test]
     fn part2() {
-        let result = process_part2(INPUT);
+        let result = part2::process(INPUT2);
         // assert_eq!(result, "");
     }
 }

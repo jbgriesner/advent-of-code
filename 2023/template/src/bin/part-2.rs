@@ -1,7 +1,7 @@
-use day_0::process_part1;
+use day_2::part2::process;
 use std::fs;
 
 fn main() {
   let file = fs::read_to_string("./input.txt").unwrap();
-  println!("{}", process_part1(&file))
+  println!("{}", process(&file))
 }
