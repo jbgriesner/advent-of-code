@@ -19,6 +19,9 @@ dependencies = [
 [[package]]
 name = "day-3"
 version = "0.1.0"
+dependencies = [
+ "nom",
+]
 
 [[package]]
 name = "lazy_static"
