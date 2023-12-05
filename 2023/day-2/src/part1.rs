@@ -121,9 +121,9 @@ fn parse_games(input: &str) -> IResult<&str, Vec<Game>> {
     Ok((input, games))
 }
 
-fn invalid_games(g: Vec<Game>) -> Vec<u32> {
+fn _invalid_games(g: Vec<Game>) -> Vec<u32> {
     g.into_iter()
-        .filter(|game| game.valid_game().map_or(true, |x| false))
+        .filter(|game| game.valid_game().map_or(true, |_| false))
         .map(|g| g.id)
         .collect()
 }

@@ -157,12 +157,12 @@ fn parse_digit(input: &str) -> IResult<&str, Cell> {
 }
 
 fn parse_empty(input: &str) -> IResult<&str, Cell> {
-    let (input, d) = tag(".")(input)?;
+    let (input, _) = tag(".")(input)?;
     Ok((input, Cell::Empty))
 }
 
 fn parse_symbol(input: &str) -> IResult<&str, Cell> {
-    let (input, d) = satisfy(|c| c != '\n')(input)?;
+    let (input, _) = satisfy(|c| c != '\n')(input)?;
     Ok((input, Cell::Symbol))
 }
 

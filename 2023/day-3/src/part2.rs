@@ -55,7 +55,7 @@ impl Grid {
         rez
     }
 
-    fn show(&self) -> String {
+    fn _show(&self) -> String {
         let mut rez = String::from("\n");
         for r in self.single_cells.iter() {
             for c in r {
@@ -165,12 +165,12 @@ fn parse_digit(input: &str) -> IResult<&str, Cell> {
 }
 
 fn parse_empty(input: &str) -> IResult<&str, Cell> {
-    let (input, d) = tag(".")(input)?;
+    let (input, _) = tag(".")(input)?;
     Ok((input, Cell::Empty))
 }
 
 fn parse_symbol(input: &str) -> IResult<&str, Cell> {
-    let (input, d) = satisfy(|c| c != '\n')(input)?;
+    let (input, _) = satisfy(|c| c != '\n')(input)?;
     Ok((input, Cell::Symbol))
 }
 
@@ -190,7 +190,7 @@ pub fn process(input: &str) -> String {
 
     let mut rez: Vec<u32> = vec![];
 
-    // println!("Grid: {}", g.show());
+    // println!("Grid: {}", g._show());
     for (row, col) in gears_poz {
         let voisins = g.get_neighs(row, col);
         // println!("  voisins at: {:?}", &voisins);
@@ -213,7 +213,7 @@ pub fn process(input: &str) -> String {
             }
         }
     }
-    // println!("Grid: {}", g.show());
+    // println!("Grid: {}", g._show());
     // println!("Grid: {:?}", g);
     // println!("  gears at: {:?}", gears_poz);
     rez.iter().sum::<u32>().to_string()

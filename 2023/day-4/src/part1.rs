@@ -5,12 +5,37 @@ use nom::{
     sequence::{preceded, tuple},
     IResult,
 };
+use utils::MyParser;
 
 #[derive(Debug, PartialEq)]
 struct Card {
     id: u32,
     win_numbers: Vec<u32>,
     numbers: Vec<u32>,
+}
+
+struct Cards {
+    cards: Vec<Card>,
+}
+
+impl Cards {
+    fn new_parse(input: &str) -> Self {
+        Cards::run_parser(input).expect("should parse")
+    }
+}
+
+#[derive(Debug)]
+struct ParserError;
+
+impl MyParser<Cards, ParserError> for Cards {
+    fn run_parser(input: &str) -> Result<Cards, ParserError> {
+        match parse_cards(input) {
+            Ok(success_parsed) => Ok(Cards {
+                cards: success_parsed.1,
+            }),
+            Err(_) => Err(ParserError),
+        }
+    }
 }
 
 fn parse_card(input: &str) -> IResult<&str, Card> {
@@ -32,8 +57,8 @@ fn parse_card(input: &str) -> IResult<&str, Card> {
     ))
 }
 
-fn parse_cards(input: &str) -> Vec<Card> {
-    separated_list1(line_ending, parse_card)(input).unwrap().1
+fn parse_cards(input: &str) -> IResult<&str, Vec<Card>> {
+    separated_list1(line_ending, parse_card)(input)
 }
 
 fn compute_card(acc: u32, card: &Card) -> u32 {
@@ -51,7 +76,7 @@ fn compute_card(acc: u32, card: &Card) -> u32 {
 }
 
 pub fn process(input: &str) -> String {
-    let cards = parse_cards(input);
+    let cards = Cards::new_parse(input).cards;
     println!("-- Cards: {:?}", cards);
     let rez: u32 = cards.iter().fold(0, compute_card);
     rez.to_string()
