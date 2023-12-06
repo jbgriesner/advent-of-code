@@ -1,1 +1,1 @@
-/home/jb/ved/advent-of-code/2023/target/debug/part-1: /home/jb/ved/advent-of-code/2023/day-5/src/bin/part-1.rs /home/jb/ved/advent-of-code/2023/day-5/src/lib.rs /home/jb/ved/advent-of-code/2023/day-5/src/part1.rs /home/jb/ved/advent-of-code/2023/day-5/src/part2.rs /home/jb/ved/advent-of-code/2023/utils/src/lib.rs
+/home/jb/ved/advent-of-code/2023/target/debug/part-1: /home/jb/ved/advent-of-code/2023/day-6/src/bin/part-1.rs /home/jb/ved/advent-of-code/2023/day-6/src/lib.rs /home/jb/ved/advent-of-code/2023/day-6/src/part1.rs /home/jb/ved/advent-of-code/2023/day-6/src/part2.rs
