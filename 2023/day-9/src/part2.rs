@@ -29,24 +29,24 @@ fn parse(input: &str) -> Vec<Vec<i64>> {
     separated_list1(newline, line)(input).unwrap().1
 }
 
-fn solve(sequence: &Vec<i64>) -> i64 {
-    fn close(seq: &Vec<i64>, firsts: &mut Vec<i64>) -> i64 {
-        firsts.push(*seq.first().unwrap());
-        let next_seq = &seq[..]
-            .windows(2)
-            .map(|pair| pair[1] - pair[0])
-            .collect::<Vec<i64>>();
-        if next_seq.iter().all(|&x| x == 0) {
-            firsts.iter().rev().fold(0, |acc, x| x - acc)
-        } else {
-            close(next_seq, firsts)
-        }
+fn close(seq: &[i64], firsts: &mut Vec<i64>) -> i64 {
+    firsts.push(*seq.first().unwrap());
+    let next_seq = seq
+        .windows(2)
+        .map(|pair| pair[1] - pair[0])
+        .collect::<Vec<i64>>();
+    if next_seq.iter().all(|&x| x == 0) {
+        firsts.iter().rev().fold(0, |acc, x| x - acc)
+    } else {
+        close(&next_seq, firsts)
     }
-    let mut init = vec![];
-    close(sequence, &mut init)
+}
+
+fn solve(sequence: &[i64]) -> i64 {
+    close(sequence, &mut vec![])
 }
 
 pub fn process(s: &str) -> String {
     let lines = parse(s);
-    lines.iter().map(solve).sum::<i64>().to_string()
+    lines.iter().map(|v| solve(v)).sum::<i64>().to_string()
 }
