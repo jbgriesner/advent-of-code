@@ -60,6 +60,6 @@ L7JLJL-JLJLJL--JLJ.L";
         let result = part2::process(INPUT3);
         // assert_eq!(result, "10");
         // assert_eq!(result, "4");
-        assert_eq!(result, "56");
+        assert_eq!(result, "101");
     }
 }

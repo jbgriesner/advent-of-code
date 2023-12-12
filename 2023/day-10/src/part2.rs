@@ -195,6 +195,86 @@ impl fmt::Display for Graph {
 }
 
 impl Graph {
+    fn how_many_edge_troncons(&self, x: usize, y: usize, cycle: &[(usize, usize)]) -> u32 {
+        let mut rez = 0;
+        let mut buffer = '-';
+        let mut buffer_activated = false;
+        let mut current_troncon_size = 0;
+
+        for idx in 0..x {
+            if cycle.contains(&(idx, y)) {
+                let n = self.get_index_node_at(idx as i32, y as i32);
+                let node = self.get_node_at_idx(n).unwrap();
+                // println!("node: {:?}", &node);
+                match node.data {
+                    'F' => {
+                        if buffer_activated {
+                            buffer_activated = false;
+                            buffer = 'F';
+                            current_troncon_size = 0;
+                        } else {
+                            buffer_activated = true;
+                            buffer = 'F';
+                            current_troncon_size += 1;
+                        }
+                    }
+                    'L' => {
+                        if buffer_activated {
+                            buffer_activated = false;
+                            buffer = 'L';
+                            current_troncon_size = 0;
+                        } else {
+                            buffer_activated = true;
+                            buffer = 'L';
+                            current_troncon_size += 1;
+                        }
+                    }
+                    'J' => {
+                        // if buffer_activated {
+                        buffer_activated = false;
+                        if buffer == 'F' {
+                            // current_troncon_size += 1;
+                            rez += current_troncon_size;
+                        }
+                        if buffer == 'L' {
+                            // current_troncon_size += 1;
+                            rez += current_troncon_size;
+                        }
+                        current_troncon_size = 0;
+
+                        // }
+                    }
+                    '7' => {
+                        // if buffer_activated {
+                        buffer_activated = false;
+                        if buffer == 'F' {
+                            current_troncon_size += 1;
+                            rez += current_troncon_size;
+                        }
+                        if buffer == 'L' {
+                            // current_troncon_size += 1;
+                            rez += current_troncon_size;
+                        }
+                        current_troncon_size = 0;
+                        // }
+                    }
+                    '-' => current_troncon_size += 1,
+                    _ => {
+                        buffer_activated = false;
+                        current_troncon_size = 0
+                    }
+                }
+            } else {
+                buffer_activated = false;
+            }
+        }
+        // if y == 5 {
+        //     println!("x, y: {}, {}", x, y);
+        //     println!("TRONCONS: {}", rez);
+        // }
+        rez
+    }
+
     fn check_if_inside(&self, cycle: &[(usize, usize)], x: usize, y: usize) -> bool {
         if cycle.contains(&(x, y)) {
             return false;
@@ -202,29 +282,45 @@ impl Graph {
 
         let mut count: u32 = 0;
 
-        // let min = std::cmp::min(max_x_cycle, x);
+        // println!("CYCLE: {:?}", &cycle);
+        // println!("y: {:?}", y);
 
-        let max_x_at_this_y = cycle
-            .iter()
-            .filter(|(_, yy)| *yy == y)
-            .map(|(xx, _)| *xx)
-            .max()
-            .unwrap();
+        let it = cycle.iter().filter(|(_, yy)| *yy == y).map(|(xx, _)| *xx);
 
-        if x > max_x_at_this_y {
+        let max_x_at_this_y = it.clone().max();
+        // dbg!(format!("OOOO {:?}", max_x_at_this_y));
+
+        if let None = max_x_at_this_y {
             return false;
         }
 
-        let min = std::cmp::min(x, max_x_at_this_y);
+        let max_x_at_this_y = it.clone().max().unwrap();
+        let min_x_at_this_y = it.min().unwrap();
 
-        for candidate_x in 0..(min) {
+        if x > max_x_at_this_y || x < min_x_at_this_y {
+            return false;
+        }
+
+        let min_max = std::cmp::min(x, max_x_at_this_y);
+
+        for candidate_x in 0..(min_max) {
             if cycle.contains(&(candidate_x, y)) {
                 count += 1;
             }
         }
+
+        let count_edge_troncons = self.how_many_edge_troncons(min_max, y, cycle);
+
+        // if y == 5 {
+        //     println!("count: {}", count);
+        //     println!("x, y: {}, {}", x, y);
+        //     println!("count_edge_troncons: {}", count_edge_troncons);
+        // }
+        let clean_count = count - count_edge_troncons;
+
         if count == 0 {
             false
-        } else if count % 2 == 0 {
+        } else if clean_count % 2 == 0 {
             false
         } else {
             true
@@ -237,7 +333,7 @@ impl Graph {
 
         let mut c = cycle.clone();
         c.sort();
-        println!("cycle: {:?}", c);
+        // println!("cycle: {:?}", c);
 
         let width = self.width();
         let height = self.height();
@@ -253,10 +349,19 @@ impl Graph {
             }
         }
 
-        let i = &mut 0;
-        for r in is_inside.clone() {
-            println!("row {}: {:?}", i, r);
-            *i += 1;
+        for j in 0..height {
+            for i in 0..width {
+                if cycle.contains(&(i, j)) {
+                    print!(".");
+                } else {
+                    if is_inside[j][i] {
+                        print!("1");
+                    } else {
+                        print!("0");
+                    }
+                }
+            }
+            println!();
         }
 
         is_inside
@@ -435,7 +540,7 @@ pub fn process(s: &str) -> String {
     let graph = init_graph(lines);
 
     // println!("graph: {:?}", graph);
-    println!("graph: {}", graph);
+    // println!("graph: {}", graph);
 
     let mut bfs = graph.bfs();
     let r = bfs
@@ -444,7 +549,7 @@ pub fn process(s: &str) -> String {
         .map(|(v1, _)| v1)
         .cloned()
         .collect::<Vec<usize>>();
-    println!("run: {:?}", r);
+    // println!("run: {:?}", r);
 
     graph.compute_area_loop(r.clone()).to_string()
 }
